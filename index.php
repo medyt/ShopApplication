@@ -32,7 +32,7 @@ h1{
         $length= count($inCart);
         $conn=connectDB($servername,$username,$password,$name); 
         if($length>0){
-            $queryStatus=str_repeat("?,", $length);
+            /*$queryStatus=str_repeat("?,", $length);
             $queryStatus=mb_substr($queryStatus,0,-1);
             $typeOfData=str_repeat("i", $length);  
             $sql = mysqli_prepare($conn,"SELECT id, title, description, price FROM products WHERE id not in (".$queryStatus.")");
@@ -42,10 +42,15 @@ h1{
             }
             $nameForVar=mb_substr($nameForVar,0,-1);
             $nameForVar=explode(",",$nameForVar); 
-            var_dump($nameForVar);
-            mysqli_stmt_bind_param($sql,$typeOfData,$nameForVar);
+                       
+            call_user_func_array(array($sql, "bind_param"), array_merge(array($typeOfData), $nameForVar));
             
             $result=mysqli_stmt_execute($sql);
+            var_dump(mysqli_stmt_execute($sql));*/
+            $inCart=implode("','",$inCart);
+            $stmt="'".$inCart."'";
+            $sql="SELECT id, title, description, price FROM products WHERE id not in (".$stmt.")";
+            $result=makeQuery($conn,$sql);
         }
         else
         {

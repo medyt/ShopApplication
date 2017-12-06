@@ -11,7 +11,7 @@
 <html lang = "en">
    
    <head>
-      <title>Tutorialspoint.com</title>
+      <title>LoginShop</title>
       <link href = "css/bootstrap.min.css" rel = "stylesheet">
       
       <style>
@@ -68,53 +68,52 @@
             text-align: center;
             color: #017572;
          }
+         .button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            }
       </style>
       
    </head>
 	
-   <body>
-      
+   <body>      
       <h2>Enter Username and Password</h2> 
-      <div class = "container form-signin">
-         
+      <div class = "container form-signin">         
          <?php
             $msg = '';
-            
-            if (isset($_POST['login']) && !empty($_POST['username']) 
-               && !empty($_POST['password'])) {
-				
-               if ($_POST['username'] == 'madalin' && 
-                  $_POST['password'] == '1234') {
+            if (isset($_POST['login']) && !empty($_POST['username'])&& !empty($_POST['password'])) {				
+               if ($_POST['username'] == 'madalin' && $_POST['password'] == '1234') {
                   $_SESSION['valid'] = true;
                   $_SESSION['timeout'] = time();
-                  $_SESSION['username'] = 'tutorialspoint';
-                  
+                  $_SESSION['username'] = 'madalin';                  
                   echo 'You have entered valid use name and password';
-               }else {
+                  header("Location: http://localhost/appMag/products.php");
+                  die();
+               }
+               else {
                   $msg = 'Wrong username or password';
                }
             }
          ?>
-      </div>
-      
-      <div class = "container">
-      
-         <form class = "form-signin" role = "form" 
-            action = "<?php echo htmlspecialchars($_SERVER['PHP_SELF']); 
-            ?>" method = "post">
+      </div>      
+      <div class = "container">      
+         <form class = "form-signin" role = "form" action = "<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method = "post">
             <h4 class = "form-signin-heading"><?php echo $msg; ?></h4>
             <input type = "text" class = "form-control" 
-               name = "username" placeholder = "username = tutorialspoint" 
+               name = "username" placeholder = "username = madalin" 
                required autofocus></br>
             <input type = "password" class = "form-control"
                name = "password" placeholder = "password = 1234" required>
-            <button class = "btn btn-lg btn-primary btn-block" type = "submit" 
-               name = "login">Login</button>
-         </form>
-			
-         Click here to clean <a href = "logout.php" tite = "Logout">Logout.
-         
-      </div> 
-      
+            <button class = "button" type = "submit"name = "login">Login</button>
+         </form>       
+      </div>       
    </body>
 </html>
