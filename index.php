@@ -26,6 +26,7 @@ h1{
     <?php
         include ("common.php");
         startSession();
+        //$_SESSION["incart"]="";
         $inCart=getSessionStatus(); 
         $inCart=mb_substr($inCart,0,-1);
         $inCart=explode(",",$inCart);

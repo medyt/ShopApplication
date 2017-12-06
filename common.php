@@ -32,4 +32,18 @@
         makeQuery($conn,$sql);
         var_dump($sql);
     }
+    function remove($id){        
+        $removeArray=getSessionStatus(); 
+        $removeArray=mb_substr($removeArray,0,-1);        
+        $removeArray=explode(",",$removeArray);
+        $lengthRemove= count($removeArray);        
+        for($i=0;$i<$lengthRemove;$i++){
+            if($removeArray[$i]==$id){
+                $removeArray[$i]="";
+                $removeArray[$i+1]="";
+            }
+        }
+        $removeArray=implode(",",$removeArray);
+        $_SESSION["incart"]=$removeArray;
+    }
 ?>

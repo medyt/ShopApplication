@@ -35,6 +35,11 @@
         else{
             startSession();
         }
+        if (isset($_POST["function"])){
+            if(strcmp($_POST["function"],"Remove")==0){     
+                remove($_POST["id"]);
+            }   
+        }    
         $inCart=getSessionStatus();
         $conn=connectDB($servername,$username,$password,$name);        
         $inCart=mb_substr($inCart,0,-1);
@@ -50,7 +55,7 @@
         {
             $sql = "SELECT id, title, description, price FROM products";
             $result=makeQuery($conn,$sql);
-        }                    
+        }              
     ?>
     <?php if($result->num_rows > 0):?>
         <table>
@@ -72,8 +77,9 @@
                 </td>
                 <td>
                     <form action="/appMag/cart.php" method="post">
+                        <input type="hidden" name="function" value="Remove">
                         <input type="hidden" name="id" value="<?=$row["id"]?>">
-                        <input type="submit" name="add" value="Add">
+                        <input type="submit" name="add" value="Remove">
                     </form>
                 </td>
             </tr>
