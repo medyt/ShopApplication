@@ -27,4 +27,9 @@
     function closeConnection($conn){
         $conn->close();
     }
+    function delete($conn,$id){
+        $sql="DELETE FROM products WHERE id='".$id."'";
+        makeQuery($conn,$sql);
+        var_dump($sql);
+    }
 ?>

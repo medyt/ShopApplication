@@ -23,7 +23,18 @@
         $conn=connectDB($servername,$username,$password,$name); 
         $sql="SELECT * FROM products";
         $result=makeQuery($conn,$sql);
+        if (isset($_POST["function"])){
+            if(strcmp($_POST["function"],"Delete")==0){
+                delete($conn,$_POST["id"]);
+            }
+            else{
+                if(strcmp($_POST["function"],"Update")==0){
+                    echo "am ajuns aici";
+                }
+            }                
+        }
     ?>
+    
     <?php if($result->num_rows > 0):?>
         <table>
         <tr>
@@ -43,7 +54,16 @@
                     <?= "price: ".$row["price"]?>
                 </td>
                 <td>
-                    
+                    <form action="products.php" method="post">
+                        <input type="hidden" name="function" value="Delete">
+                        <input type="hidden" name="id" value="<?=$row["id"]?>">
+                        <input type="submit" value="Delete">
+                    </form>
+                    <form action="products.php" method="post">
+                        <input type="hidden" name="function" value="Update">
+                        
+                        <input type="submit" value="Update">
+                    </form>
                 </td>
             </tr>
         <?php endwhile;?>
