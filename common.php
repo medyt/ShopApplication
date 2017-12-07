@@ -14,9 +14,10 @@
     }
     function delete($conn,$id)
     {
-        $sql = "DELETE FROM products WHERE id='".$id."'";
-        makeQuery($conn, $sql);
-        var_dump($sql);
+        $query = "DELETE FROM products WHERE id=?";
+        $state = mysqli_prepare($conn, $query);
+        mysqli_stmt_bind_param($state, 'i', $id);
+        mysqli_stmt_execute($state);
     }
     function remove($id)
     {        

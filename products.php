@@ -23,7 +23,7 @@
         session_start();
         $conn = connectDB($servername, $username, $password, $name); 
         $sql = "SELECT * FROM products";
-        $result = makeQuery($conn, $sql);
+        $result = $conn->query($sql);
         if (isset($_POST["function"])) {
             if(strcmp($_POST["function"], "Delete")==0) {
                 delete($conn,$_POST["id"]);
