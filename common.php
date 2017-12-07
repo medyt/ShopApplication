@@ -21,13 +21,11 @@
     }
     function remove($id)
     {        
-        $removeArray=$_SESSION["incart"];
-        $lengthRemove= count($removeArray);        
-        for ($i=0; $i<$lengthRemove; $i++) {
-            if ($removeArray[$i] == $id) {
-                unset($removeArray[$i]);
+        $lengthRemove= count($_SESSION["incart"]);        
+        for ($i = 0; $i < $lengthRemove; $i++) {
+            if ($_SESSION["incart"][$i] == $id) {
+                unset($_SESSION["incart"][$i]);
             }
         }
-        $_SESSION["incart"]=$removeArray;
     }
 ?>
