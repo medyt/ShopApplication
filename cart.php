@@ -27,51 +27,61 @@
 
     <?php 
         include ("common.php");
-        session_start(); 
-        $valuesArray=$_SESSION["incart"];        
+        session_start();
+        $conn = connectDB($servername, $username, $password, $name); 
+        $valuesArray = $_SESSION["incart"];        
         if (isset($_POST["function"])){
-            if(strcmp($_POST["function"],"Remove")==0){     
+            if(strcmp($_POST["function"], "Remove") == 0) {     
                 remove($_POST["id"]);
             }   
-        }
-        else {
-            if (isset($_POST["id"])){            
-                $valuesArray[]=$_POST['id'];
-                var_dump($valuesArray);
-                $_SESSION["incart"]=$valuesArray;           
+        } else {
+            if (isset($_POST["id"])) {            
+                $valuesArray[] = $_POST['id'];
+                $_SESSION["incart"] = $valuesArray;           
             }
-        }    
-        $inCart=$_SESSION["incart"];
-        $conn=connectDB($servername,$username,$password,$name);
-        $length= count($inCart);
-        $inCartString=implode("','",$inCart);
-        $stmt="'".$inCartString."'";
-        $sql="SELECT id, title, description, price FROM products WHERE id in (".$stmt.")";
-        $result=makeQuery($conn,$sql);
-                    
+        }  
+        $length = count($valuesArray);
+               
+        $params = array_fill(0, $length, '?');
+         
+        $typeOfData = str_repeat("i", $length); 
+        
+        $values[] = $typeOfData;
+        for ($i=0; $i<$length; $i++) {
+            $values[] = &$valuesArray[$i];
+        }
+        
+        if ($length>0) {
+            $query = 'SELECT id, title, description, price FROM products WHERE id in ('.implode(',',$params).')';
+            $stmt = mysqli_prepare($conn, $query);
+            call_user_func_array(array($stmt, "bind_param"), $values);
+            mysqli_stmt_execute($stmt);
+            $result = mysqli_stmt_get_result($stmt);
+            $row_cnt = mysqli_num_rows($result);   
+        }                    
     ?>
-    <?php if($result->num_rows > 0):?>
+    <?php if($row_cnt > 0):?>
         <table>
         <tr>
             <th>Photo</th>
             <th>Specification</th> 
             <th>Add</th>
         </tr>
-        <?php while($row = $result->fetch_assoc()):?>
-            <?php $photoName="photo/photo-".$row["id"].".jpg"?>
+        <?php while($row = mysqli_fetch_array($result, MYSQLI_NUM)):?>
+            <?php $photoName="photo/photo-".$row[0].".jpg"?>
             <tr>
                 <td>
                     <img src="<?=$photoName?>" height="100" width="100">
                 </td>
                 <td>
-                    <?= "title: ".$row["title"]."<br/>"?>
-                    <?= "description: ".$row["description"]."<br/>"?>
-                    <?= "price: ".$row["price"]?>
+                    <?= "title: ".$row[1]."<br/>"?>
+                    <?= "description: ".$row[2]."<br/>"?>
+                    <?= "price: ".$row[3]?>
                 </td>
                 <td>
                     <form action="/appMag/cart.php" method="post">
                         <input type="hidden" name="function" value="Remove">
-                        <input type="hidden" name="id" value="<?=$row["id"]?>">
+                        <input type="hidden" name="id" value="<?=$row[0]?>">
                         <input type="submit" name="add" value="Remove">
                     </form>
                 </td>

@@ -21,15 +21,14 @@
     <?php
         include ("common.php");
         session_start();
-        $conn=connectDB($servername,$username,$password,$name); 
-        $sql="SELECT * FROM products";
-        $result=makeQuery($conn,$sql);
-        if (isset($_POST["function"])){
-            if(strcmp($_POST["function"],"Delete")==0){
+        $conn = connectDB($servername, $username, $password, $name); 
+        $sql = "SELECT * FROM products";
+        $result = makeQuery($conn, $sql);
+        if (isset($_POST["function"])) {
+            if(strcmp($_POST["function"], "Delete")==0) {
                 delete($conn,$_POST["id"]);
-            }
-            else{
-                if(strcmp($_POST["function"],"Update")==0){
+            } else {
+                if(strcmp($_POST["function"],"Update")==0) {
                     echo "am ajuns aici";
                 }
             }                

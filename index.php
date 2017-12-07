@@ -27,29 +27,28 @@ h1{
         include ("common.php");
         session_start();
         //$_SESSION["incart"]=array();
-        $inCartIndex= $_SESSION["incart"];   
-        $length= count($inCartIndex);
-        $conn=connectDB($servername,$username,$password,$name); 
-        $params=array_fill(0,$length,'?');
-        $typeOfData=str_repeat("i", $length); 
-        $values[]=$typeOfData;
-        for($i=0;$i<$length;$i++) {
-            $values[]=&$inCartIndex[$i];
+        $conn = connectDB($servername, $username, $password, $name); 
+        $inCartIndex = $_SESSION["incart"];   
+        $length = count($inCartIndex);        
+        $params = array_fill(0, $length, '?');
+        $typeOfData = str_repeat("i", $length); 
+        $values[] = $typeOfData;
+        for ($i=0; $i<$length; $i++) {
+            $values[] = &$inCartIndex[$i];
         }
-        /*foreach($inCartIndex as $id) {
+        /*foreach ($inCartIndex as $id) {
             echo $id;
-            $values[]=&$id;
+            $values[] = &$id;
         }*/
         //var_dump($values);
-        if($length>0) {
+        if ($length>0) {
             $query = 'SELECT id, title, description, price FROM products WHERE id not in ('.implode(',',$params).')';
-            $stmt = mysqli_prepare($conn,$query);
-            call_user_func_array(array($stmt, "bind_param"),$values);
+            $stmt = mysqli_prepare($conn, $query);
+            call_user_func_array(array($stmt, "bind_param"), $values);
             mysqli_stmt_execute($stmt);
             $result = mysqli_stmt_get_result($stmt);
             $row_cnt = mysqli_num_rows($result);   
-        }
-        else {
+        } else {
             $query = 'SELECT id, title, description, price FROM products';
             $stmt = mysqli_prepare($conn,$query);
             mysqli_stmt_execute($stmt);

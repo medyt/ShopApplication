@@ -88,12 +88,13 @@
       <h2>Enter Username and Password</h2> 
       <div class = "container form-signin">         
          <?php
+            include ("config.php");
             $msg = '';
             if (isset($_POST['login']) && !empty($_POST['username'])&& !empty($_POST['password'])) {				
-               if ($_POST['username'] == 'madalin' && $_POST['password'] == '1234') {
+               if ($_POST['username'] == $loginusername && $_POST['password'] == $loginpassword) {
                   $_SESSION['valid'] = true;
                   $_SESSION['timeout'] = time();
-                  $_SESSION['username'] = 'madalin';                  
+                  $_SESSION['username'] = $loginusername;                  
                   echo 'You have entered valid use name and password';
                   header("Location: http://localhost/appMag/products.php");
                   die();
@@ -108,10 +109,10 @@
          <form class = "form-signin" role = "form" action = "<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method = "post">
             <h4 class = "form-signin-heading"><?php echo $msg; ?></h4>
             <input type = "text" class = "form-control" 
-               name = "username" placeholder = "username = madalin" 
+               name = "username" placeholder = "username =<?=$loginusername?>" 
                required autofocus></br>
             <input type = "password" class = "form-control"
-               name = "password" placeholder = "password = 1234" required>
+               name = "password" placeholder = "password = <?=$loginpassword?>" required>
             <button class = "button" type = "submit"name = "login">Login</button>
          </form>       
       </div>       
