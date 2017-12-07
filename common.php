@@ -28,4 +28,15 @@
             }
         }
     }
+    function add($title, $description, $price,$file,$conn)
+    {
+        $id=5;
+        $query = "INSERT INTO products (id,title,description,price) VALUES (?,?,?,?)";
+        $state = mysqli_prepare($conn, $query);
+        mysqli_stmt_bind_param($state, 'isss', $id,$title, $description, $price);
+        mysqli_stmt_execute($state);
+        $input = $file["tmp_name"];
+        $output = "./photo/photo-". $id .'.jpg';
+        file_put_contents($output, file_get_contents($input));
+    }
 ?>

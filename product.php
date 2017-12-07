@@ -24,19 +24,20 @@
 </head>
 <body>
     <?php
-        session_start(); 
-       /*if (isset($_POST["function"])) {
-        if(strcmp($_POST["function"],"Add")==0) {     
-            echo "am ajuns aici";
-            //add($_POST["title));
-        }   
-    }  */  
+        include ("common.php");
+        session_start();
+        $conn = connectDB($servername, $username, $password, $name);         
+        if (isset($_POST["function"])) {
+        if(strcmp($_POST["function"],"Add") == 0) {
+            add($_POST["Title"], $_POST["Description"], $_POST["Price"],$_FILES["fileToUpload"],$conn);            
+        }
+    }    
     ?>
     <div>
         <div>            
             <form action="product.php" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="function" value="Add">
-                <input class="solid" id="row" type="text" name="title" value="Title"><br>
+                <input class="solid" id="row" type="text" name="Title" value="Title"><br>
                 <input class="solid" id="row" type="text" name="Description" value="Description"><br>    
                 <input class="solid" id="row" type="text" name="Price" value="Price"><br>
                 <p name="Photo">Image:</p>
