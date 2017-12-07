@@ -34,23 +34,15 @@
             if(strcmp($_POST["function"], "Remove") == 0) {     
                 remove($_POST["id"]);
             }   
-        } else {
-            if (isset($_POST["id"])) {            
-                $valuesArray[] = $_POST['id'];
-                $_SESSION["incart"] = $valuesArray;           
-            }
-        }  
-        $length = count($valuesArray);
-               
-        $params = array_fill(0, $length, '?');
-         
-        $typeOfData = str_repeat("i", $length); 
-        
+        }
+        $length = count($valuesArray);               
+        $params = array_fill(0, $length, '?');         
+        $typeOfData = str_repeat("i", $length);         
         $values[] = $typeOfData;
         for ($i=0; $i<$length; $i++) {
             $values[] = &$valuesArray[$i];
         }
-        
+        $row_cnt= 0;
         if ($length>0) {
             $query = 'SELECT id, title, description, price FROM products WHERE id in ('.implode(',',$params).')';
             $stmt = mysqli_prepare($conn, $query);

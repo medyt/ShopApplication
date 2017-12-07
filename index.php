@@ -26,6 +26,11 @@ h1{
     <?php
         include ("common.php");
         session_start();
+        $valuesArray = $_SESSION["incart"]; 
+        if (isset($_POST["id"])) {            
+            $valuesArray[] = $_POST['id'];
+            $_SESSION["incart"] = $valuesArray;           
+        }
         //$_SESSION["incart"]=array();
         $conn = connectDB($servername, $username, $password, $name); 
         $inCartIndex = $_SESSION["incart"];   
@@ -75,7 +80,7 @@ h1{
                     <?= "price: ".$row[3]?>
                 </td>
                 <td>
-                    <form action="/appMag/cart.php" method="post">
+                    <form action="/appMag/index.php" method="post">
                         <input type="hidden" name="id" value="<?=$row[0]?>">
                         <input type="submit" name="add" value="Add">
                     </form>
