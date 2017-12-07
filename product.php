@@ -24,19 +24,27 @@
 </head>
 <body>
     <?php
-       
+       /*if (isset($_POST["function"])) {
+        if(strcmp($_POST["function"],"Add")==0) {     
+            echo "am ajuns aici";
+            //add($_POST["title));
+        }   
+    }  */  
     ?>
     <div>
-        <input class="solid" id="row" type="text" name="title" value="Title"><br>
-        <input class="solid" id="row" type="text" name="Description" value="Description"><br>    
-        <input class="solid" id="row" type="text" name="Price" value="Price"><br>
-        <div>
-            <p name="Photo">Image:</p>
-            <input type="submit" class="button" value="Browse"> 
+        <div>            
+            <form action="product.php" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="function" value="Add">
+                <input class="solid" id="row" type="text" name="title" value="Title"><br>
+                <input class="solid" id="row" type="text" name="Description" value="Description"><br>    
+                <input class="solid" id="row" type="text" name="Price" value="Price"><br>
+                <p name="Photo">Image:</p>
+                <input type="file" name="fileToUpload" id="fileToUpload">
+                <input type="submit" class="button" value="Save" name="submit">
+            </form>
         </div>
         <div>
-            <a href="/appMag/index.php" class="button">Go to index</a>
-            <input type="submit" class="button" value="Checkout">
+            <a href="/appMag/products.php" class="button">Products</a>
         </div>
     </div>
 </body>

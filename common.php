@@ -1,10 +1,10 @@
 <?php
     include ("config.php");
-    function startSession(){
-        session_start();        
-    }
-    function getSessionStatus(){
-        return $_SESSION["incart"];
+    function getSessionStatus()
+    {
+        if(isset($_SESSION["incart"])) {
+            return $_SESSION["incart"];
+        }
     }
     function setSession($idForProductsInCart){
         $_SESSION["incart"]=$idForProductsInCart;
@@ -23,9 +23,6 @@
     function makeQuery($conn,$sql){        
         $result = $conn->query($sql);
         return $result;
-    }
-    function closeConnection($conn){
-        $conn->close();
     }
     function delete($conn,$id){
         $sql="DELETE FROM products WHERE id='".$id."'";

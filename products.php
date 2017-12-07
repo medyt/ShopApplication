@@ -20,6 +20,7 @@
     <h1>Products Management</h1>
     <?php
         include ("common.php");
+        session_start();
         $conn=connectDB($servername,$username,$password,$name); 
         $sql="SELECT * FROM products";
         $result=makeQuery($conn,$sql);
@@ -71,5 +72,6 @@
     <?php endif;?> 
     <a href="/appMag/product.php" class="button">Add</a>
     <a href="/appMag/logout.php" class="button">Logout</a>   
+    <?php $conn->close();?>
     </body>
 </html>

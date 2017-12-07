@@ -27,13 +27,10 @@
 
     <?php 
         include ("common.php");
-        if (isset($_POST["id"])){
-            startSession();
+        session_start(); 
+        if (isset($_POST["id"])){            
             $idForProductsInCart=$_SESSION["incart"].$_POST['id'].",";
             setSession($idForProductsInCart);            
-        }
-        else{
-            startSession();
         }
         if (isset($_POST["function"])){
             if(strcmp($_POST["function"],"Remove")==0){     
@@ -95,8 +92,6 @@
             <input type="submit" class="button" value="Checkout">
         </div>
     </div>
-    <?php
-        closeConnection($conn);
-    ?>
+    <?php $conn->close();?>
 </body>
 </html>

@@ -25,14 +25,14 @@ h1{
     
     <?php
         include ("common.php");
-        startSession();
+        session_start();
         //$_SESSION["incart"]="";
         $inCart=getSessionStatus(); 
         $inCart=mb_substr($inCart,0,-1);
         $inCart=explode(",",$inCart);
         $length= count($inCart);
         $conn=connectDB($servername,$username,$password,$name); 
-        if($length>0){
+        if ($length>0) {
             /*$queryStatus=str_repeat("?,", $length);
             $queryStatus=mb_substr($queryStatus,0,-1);
             $typeOfData=str_repeat("i", $length);  
@@ -53,8 +53,7 @@ h1{
             $sql="SELECT id, title, description, price FROM products WHERE id not in (".$stmt.")";
             $result=makeQuery($conn,$sql);
         }
-        else
-        {
+        else {
             $sql = "SELECT id, title, description, price FROM products";
             $result=makeQuery($conn,$sql);
         }                    
@@ -88,9 +87,7 @@ h1{
         </table>
     <?php endif;?>
     
-    <?php
-        closeConnection($conn);
-    ?>
+    <?php $conn->close();?>
     <a href="/appMag/login.php" class="button">Login</a>
     <a href="/appMag/cart.php" class="button">Go to cart</a>
 </body>
