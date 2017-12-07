@@ -11,11 +11,6 @@
         $conn->select_db($name); 
         $conn->query("SET NAMES 'utf8'");              
         return $conn;
-    }  
-    function makeQuery($conn,$sql)
-    {        
-        $result = $conn->query($sql);
-        return $result;
     }
     function delete($conn,$id)
     {

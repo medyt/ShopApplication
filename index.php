@@ -29,7 +29,8 @@ h1{
         $valuesArray = $_SESSION["incart"]; 
         if (isset($_POST["id"])) {            
             $valuesArray[] = $_POST['id'];
-            $_SESSION["incart"] = $valuesArray;           
+            $_SESSION["incart"] = $valuesArray;
+            header("Location: http://localhost/appMag/cart.php");           
         }
         //$_SESSION["incart"]=array();
         $conn = connectDB($servername, $username, $password, $name); 
@@ -63,30 +64,30 @@ h1{
     ?>
     <?php if($row_cnt > 0):?>
         <table>
-        <tr>
-            <th>Photo</th>
-            <th>Specification</th> 
-            <th>Add</th>
-        </tr>
-        <?php while($row = mysqli_fetch_array($result, MYSQLI_NUM)):?>
-            <?php $photoName="photo/photo-".$row[0].".jpg"?>
             <tr>
-                <td>
-                    <img src="<?=$photoName?>" height="100" width="100">
-                </td>
-                <td>
-                    <?= "title: ".$row[1]."<br/>"?>
-                    <?= "description: ".$row[2]."<br/>"?>
-                    <?= "price: ".$row[3]?>
-                </td>
-                <td>
-                    <form action="/appMag/index.php" method="post">
-                        <input type="hidden" name="id" value="<?=$row[0]?>">
-                        <input type="submit" name="add" value="Add">
-                    </form>
-                </td>
+                <th>Photo</th>
+                <th>Specification</th> 
+                <th>Add</th>
             </tr>
-        <?php endwhile;?>
+            <?php while($row = mysqli_fetch_array($result, MYSQLI_NUM)):?>
+                <?php $photoName="photo/photo-".$row[0].".jpg"?>
+                <tr>
+                    <td>
+                        <img src="<?=$photoName?>" height="100" width="100">
+                    </td>
+                    <td>
+                        <?= "title: ".$row[1]."<br/>"?>
+                        <?= "description: ".$row[2]."<br/>"?>
+                        <?= "price: ".$row[3]?>
+                    </td>
+                    <td>
+                        <form action="/appMag/index.php" method="post">
+                            <input type="hidden" name="id" value="<?=$row[0]?>">
+                            <input type="submit" name="add" value="Add">
+                        </form>
+                    </td>
+                </tr>
+            <?php endwhile;?>
         </table>
     <?php endif;?>
     

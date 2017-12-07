@@ -37,36 +37,36 @@
     
     <?php if($result->num_rows > 0):?>
         <table>
-        <tr>
-            <th>Photo</th>
-            <th>Specification</th> 
-            <th>Posibilities</th>
-        </tr>
-        <?php while($row = $result->fetch_assoc()):?>
-            <?php $photoName="photo/photo-".$row["id"].".jpg"?>
             <tr>
-                <td>
-                    <img src="<?=$photoName?>" height="100" width="100">
-                </td>
-                <td>
-                    <?= "title: ".$row["title"]."<br/>"?>
-                    <?= "description: ".$row["description"]."<br/>"?>
-                    <?= "price: ".$row["price"]?>
-                </td>
-                <td>
-                    <form action="products.php" method="post">
-                        <input type="hidden" name="function" value="Delete">
-                        <input type="hidden" name="id" value="<?=$row["id"]?>">
-                        <input type="submit" value="Delete">
-                    </form>
-                    <form action="products.php" method="post">
-                        <input type="hidden" name="function" value="Update">
-                        
-                        <input type="submit" value="Update">
-                    </form>
-                </td>
+                <th>Photo</th>
+                <th>Specification</th> 
+                <th>Posibilities</th>
             </tr>
-        <?php endwhile;?>
+            <?php while($row = $result->fetch_assoc()):?>
+                <?php $photoName="photo/photo-".$row["id"].".jpg"?>
+                <tr>
+                    <td>
+                        <img src="<?=$photoName?>" height="100" width="100">
+                    </td>
+                    <td>
+                        <?= "title: ".$row["title"]."<br/>"?>
+                        <?= "description: ".$row["description"]."<br/>"?>
+                        <?= "price: ".$row["price"]?>
+                    </td>
+                    <td>
+                        <form action="products.php" method="post">
+                            <input type="hidden" name="function" value="Delete">
+                            <input type="hidden" name="id" value="<?=$row["id"]?>">
+                            <input type="submit" value="Delete">
+                        </form>
+                        <form action="products.php" method="post">
+                            <input type="hidden" name="function" value="Update">
+                            
+                            <input type="submit" value="Update">
+                        </form>
+                    </td>
+                </tr>
+            <?php endwhile;?>
         </table>
     <?php endif;?> 
     <a href="/appMag/product.php" class="button">Add</a>
