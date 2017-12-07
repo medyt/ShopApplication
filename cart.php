@@ -28,14 +28,18 @@
     <?php 
         include ("common.php");
         session_start(); 
-        if (isset($_POST["id"])){
-            $valuesArray[]=$_POST['id'];
-            $_SESSION["incart"]=$valuesArray;           
-        }
+        $valuesArray=$_SESSION["incart"];        
         if (isset($_POST["function"])){
             if(strcmp($_POST["function"],"Remove")==0){     
                 remove($_POST["id"]);
             }   
+        }
+        else {
+            if (isset($_POST["id"])){            
+                $valuesArray[]=$_POST['id'];
+                var_dump($valuesArray);
+                $_SESSION["incart"]=$valuesArray;           
+            }
         }    
         $inCart=$_SESSION["incart"];
         $conn=connectDB($servername,$username,$password,$name);

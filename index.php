@@ -29,54 +29,55 @@ h1{
         //$_SESSION["incart"]=array();
         $inCartIndex= $_SESSION["incart"];   
         $length= count($inCartIndex);
-        $inCartString=implode("','",$inCartIndex);
         $conn=connectDB($servername,$username,$password,$name); 
-        if ($length>0) {
-            /*$queryStatus=str_repeat("?,", $length);
-            $queryStatus=mb_substr($queryStatus,0,-1);
-            $typeOfData=str_repeat("i", $length);  
-            $sql = mysqli_prepare($conn,"SELECT id, title, description, price FROM products WHERE id not in (".$queryStatus.")");
-            $nameForVar="";
-            for($i=0;$i<$length;$i++){
-                $nameForVar.="$"."id".$i.",";
-            }
-            $nameForVar=mb_substr($nameForVar,0,-1);
-            $nameForVar=explode(",",$nameForVar); 
-                       
-            call_user_func_array(array($sql, "bind_param"), array_merge(array($typeOfData), $nameForVar));
-            
-            $result=mysqli_stmt_execute($sql);
-            var_dump(mysqli_stmt_execute($sql));*/ 
-            $stmt="'".$inCartString."'";
-            $sql="SELECT id, title, description, price FROM products WHERE id not in (".$stmt.")";
-            $result=makeQuery($conn,$sql);
+        $params=array_fill(0,$length,'?');
+        $typeOfData=str_repeat("i", $length); 
+        $values[]=$typeOfData;
+        for($i=0;$i<$length;$i++) {
+            $values[]=&$inCartIndex[$i];
+        }
+        /*foreach($inCartIndex as $id) {
+            echo $id;
+            $values[]=&$id;
+        }*/
+        //var_dump($values);
+        if($length>0) {
+            $query = 'SELECT id, title, description, price FROM products WHERE id not in ('.implode(',',$params).')';
+            $stmt = mysqli_prepare($conn,$query);
+            call_user_func_array(array($stmt, "bind_param"),$values);
+            mysqli_stmt_execute($stmt);
+            $result = mysqli_stmt_get_result($stmt);
+            $row_cnt = mysqli_num_rows($result);   
         }
         else {
-            $sql = "SELECT id, title, description, price FROM products";
-            $result=makeQuery($conn,$sql);
-        }                   
+            $query = 'SELECT id, title, description, price FROM products';
+            $stmt = mysqli_prepare($conn,$query);
+            mysqli_stmt_execute($stmt);
+            $result = mysqli_stmt_get_result($stmt);
+            $row_cnt = mysqli_num_rows($result);
+        }       
     ?>
-    <?php if($result->num_rows > 0):?>
+    <?php if($row_cnt > 0):?>
         <table>
         <tr>
             <th>Photo</th>
             <th>Specification</th> 
             <th>Add</th>
         </tr>
-        <?php while($row = $result->fetch_assoc()):?>
-            <?php $photoName="photo/photo-".$row["id"].".jpg"?>
+        <?php while($row = mysqli_fetch_array($result, MYSQLI_NUM)):?>
+            <?php $photoName="photo/photo-".$row[0].".jpg"?>
             <tr>
                 <td>
                     <img src="<?=$photoName?>" height="100" width="100">
                 </td>
                 <td>
-                    <?= "title: ".$row["title"]."<br/>"?>
-                    <?= "description: ".$row["description"]."<br/>"?>
-                    <?= "price: ".$row["price"]?>
+                    <?= "title: ".$row[1]."<br/>"?>
+                    <?= "description: ".$row[2]."<br/>"?>
+                    <?= "price: ".$row[3]?>
                 </td>
                 <td>
                     <form action="/appMag/cart.php" method="post">
-                        <input type="hidden" name="id" value="<?=$row["id"]?>">
+                        <input type="hidden" name="id" value="<?=$row[0]?>">
                         <input type="submit" name="add" value="Add">
                     </form>
                 </td>
