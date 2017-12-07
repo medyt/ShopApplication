@@ -1,14 +1,5 @@
 <?php
     include ("config.php");
-    function getSessionStatus()
-    {
-        if(isset($_SESSION["incart"])) {
-            return $_SESSION["incart"];
-        }
-    }
-    function setSession($idForProductsInCart){
-        $_SESSION["incart"]=$idForProductsInCart;
-    }
     function connectDB($servername,$username,$password,$name){
         // Create connection
         $conn = mysqli_connect($servername, $username, $password,$name);
@@ -30,17 +21,13 @@
         var_dump($sql);
     }
     function remove($id){        
-        $removeArray=getSessionStatus(); 
-        $removeArray=mb_substr($removeArray,0,-1);        
-        $removeArray=explode(",",$removeArray);
+        $removeArray=$_SESSION["incart"];
         $lengthRemove= count($removeArray);        
         for($i=0;$i<$lengthRemove;$i++){
             if($removeArray[$i]==$id){
-                $removeArray[$i]="";
-                $removeArray[$i+1]="";
+                unset($removeArray[$i]);
             }
         }
-        $removeArray=implode(",",$removeArray);
         $_SESSION["incart"]=$removeArray;
     }
 ?>

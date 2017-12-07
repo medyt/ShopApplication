@@ -26,11 +26,10 @@ h1{
     <?php
         include ("common.php");
         session_start();
-        //$_SESSION["incart"]="";
-        $inCart=getSessionStatus(); 
-        $inCart=mb_substr($inCart,0,-1);
-        $inCart=explode(",",$inCart);
-        $length= count($inCart);
+        //$_SESSION["incart"]=array();
+        $inCartIndex= $_SESSION["incart"];   
+        $length= count($inCartIndex);
+        $inCartString=implode("','",$inCartIndex);
         $conn=connectDB($servername,$username,$password,$name); 
         if ($length>0) {
             /*$queryStatus=str_repeat("?,", $length);
@@ -47,16 +46,15 @@ h1{
             call_user_func_array(array($sql, "bind_param"), array_merge(array($typeOfData), $nameForVar));
             
             $result=mysqli_stmt_execute($sql);
-            var_dump(mysqli_stmt_execute($sql));*/
-            $inCart=implode("','",$inCart);
-            $stmt="'".$inCart."'";
+            var_dump(mysqli_stmt_execute($sql));*/ 
+            $stmt="'".$inCartString."'";
             $sql="SELECT id, title, description, price FROM products WHERE id not in (".$stmt.")";
             $result=makeQuery($conn,$sql);
         }
         else {
             $sql = "SELECT id, title, description, price FROM products";
             $result=makeQuery($conn,$sql);
-        }                    
+        }                   
     ?>
     <?php if($result->num_rows > 0):?>
         <table>

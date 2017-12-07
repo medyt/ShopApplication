@@ -24,6 +24,7 @@
 </head>
 <body>
     <?php
+        session_start(); 
        /*if (isset($_POST["function"])) {
         if(strcmp($_POST["function"],"Add")==0) {     
             echo "am ajuns aici";

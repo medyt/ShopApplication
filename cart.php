@@ -28,31 +28,23 @@
     <?php 
         include ("common.php");
         session_start(); 
-        if (isset($_POST["id"])){            
-            $idForProductsInCart=$_SESSION["incart"].$_POST['id'].",";
-            setSession($idForProductsInCart);            
+        if (isset($_POST["id"])){
+            $valuesArray[]=$_POST['id'];
+            $_SESSION["incart"]=$valuesArray;           
         }
         if (isset($_POST["function"])){
             if(strcmp($_POST["function"],"Remove")==0){     
                 remove($_POST["id"]);
             }   
         }    
-        $inCart=getSessionStatus();
-        $conn=connectDB($servername,$username,$password,$name);        
-        $inCart=mb_substr($inCart,0,-1);
-        $inCart=explode(",",$inCart);
+        $inCart=$_SESSION["incart"];
+        $conn=connectDB($servername,$username,$password,$name);
         $length= count($inCart);
-        if($length>0){
-            $inCart=implode("','",$inCart);
-            $stmt="'".$inCart."'";
-            $sql="SELECT id, title, description, price FROM products WHERE id in (".$stmt.")";
-            $result=makeQuery($conn,$sql);
-        }
-        else
-        {
-            $sql = "SELECT id, title, description, price FROM products";
-            $result=makeQuery($conn,$sql);
-        }              
+        $inCartString=implode("','",$inCart);
+        $stmt="'".$inCartString."'";
+        $sql="SELECT id, title, description, price FROM products WHERE id in (".$stmt.")";
+        $result=makeQuery($conn,$sql);
+                    
     ?>
     <?php if($result->num_rows > 0):?>
         <table>
