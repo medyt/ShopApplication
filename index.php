@@ -82,7 +82,7 @@ p {
                     </td>
                     <td>
                         <form action="/appMag/index.php" method="post">
-                            <input type="hidden" name="id" value="<?=$row["id"] ?>">
+                            <input type="hidden" name="id" value="<?= $row["id"] ?>">
                             <input type="submit" name="add" value="Add">
                         </form>
                     </td>
