@@ -2,11 +2,22 @@
     include ("common.php");
     $conn = connectDB($servername, $username, $password, $name);        
     if (isset($_POST["function"])) {
-        if(strcmp($_POST["function"], "Remove") == 0) {     
-            remove($_POST["id"]);
+        if($_POST["function"] == "Remove") {     
+            if (in_array($_POST["id"], $_SESSION["incart"], true)) {
+                array_splice($_SESSION["incart"], array_search($_POST["id"], $_SESSION["incart"]), 1);
+            }
         } else {
-            if(strcmp($_POST["function"], "Checkout") == 0) {     
-                checkout($_POST["Name"], $_POST["Contact"], $_POST["Comments"]);
+            if($_POST["function"] == "Checkout") {
+                $msg = "Dear".$_POST["Name"].",\n\n\n"."My contact details is ".$_POST["Contact"]."\n".$_POST["Comments"];
+                $msg = wordwrap($msg, 70);
+                ini_set('smtp_port', 26);
+                $headers =  'MIME-Version: 1.0' . "\r\n"; 
+                $headers .= 'From: Your name <info@address.com>' . "\r\n";
+                $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n"; 
+                mail($checkoutemail, "My order", $msg, $headers);
+                $_SESSION["incart"] = array();
+                header("Location: index.php"); 
+                die();
             }
         }
     }

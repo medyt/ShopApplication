@@ -5,4 +5,5 @@
     $name = 'the name of database';
     $loginusername = 'login username';
     $loginpassword = 'login password';
+	$checkoutemail = "emailtocheckout";
 ?>
