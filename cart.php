@@ -30,7 +30,6 @@
 
     <?php 
         include ("common.php");
-        session_start();
         $conn = connectDB($servername, $username, $password, $name);        
         if (isset($_POST["function"])){
             if(strcmp($_POST["function"], "Remove") == 0) {     
