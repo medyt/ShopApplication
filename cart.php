@@ -1,9 +1,13 @@
 <?php 
     include ("common.php");
     $conn = connectDB($servername, $username, $password, $name);        
-    if (isset($_POST["function"])){
+    if (isset($_POST["function"])) {
         if(strcmp($_POST["function"], "Remove") == 0) {     
             remove($_POST["id"]);
+        } else {
+            if(strcmp($_POST["function"], "Checkout") == 0) {     
+                checkout($_POST["Name"], $_POST["Contact"], $_POST["Comments"]);
+            }
         }
     }
     $length = count($_SESSION["incart"]);               
@@ -12,7 +16,7 @@
     for ($i = 0; $i < $length; $i++) {
         $values[] = &$_SESSION["incart"][$i];
     }
-    $row_cnt= 0;
+    $row_cnt = 0;
     if ($length > 0) {
         $query = 'SELECT id, title, description, price FROM products WHERE id in ('.implode(',',$params).')';
         $stmt = mysqli_prepare($conn, $query);
@@ -27,8 +31,11 @@
 <html>
 <head>
     <style>
-        input.solid {border-style: solid;border-color:#017572;}
-        #row{
+        input.solid {
+            border-style: solid;
+            border-color:#017572;
+        }
+        #row {
             margin-top: 1.3em;
             height:2em;
             width: 25.4em;
@@ -61,7 +68,7 @@
             <?php while($row = mysqli_fetch_assoc($result)): ?>
                 <tr>
                     <td>
-                        <img src="<?="photo/photo-".$row["id"].".jpg" ?>" height="100" width="100">
+                        <img src="<?= "photo/photo-".$row["id"].".jpg" ?>" height="100" width="100">
                     </td>
                     <td>
                         <p><?= translate('title', $translate) ?> : <?= $row["title"] ?> <br/> </p>
@@ -80,13 +87,16 @@
         </table>
     <?php endif;?>
     <div>
-        <input class="solid" id="row" type="text" name="fname" value="<?= translate('Name', $translate) ?>"><br>
-        <input class="solid" id="row" type="text" name="lname" value="<?= translate('Contact details', $translate) ?>"><br>    
-        <input class="solid" id="row" type="text" name="lname" value="<?= translate('Comments', $translate) ?>"><br>
-        <div>
-            <a href="index.php" class="button"><?= translate('Go to index', $translate) ?></a>
-            <input type="submit" class="button" value="<?= translate('Checkout', $translate) ?>">
-        </div>
+        <form action="cart.php" method="post">
+            <input type="hidden" name="function" value="Checkout">
+            <input class="solid" id="row" type="text" name="Name" value="<?= translate('Name', $translate) ?>"><br>
+            <input class="solid" id="row" type="text" name="Contact" value="<?= translate('Contact details', $translate) ?>"><br>    
+            <input class="solid" id="row" type="text" name="Comments" value="<?= translate('Comments', $translate) ?>"><br>
+            <div>
+                <a href="index.php" class="button"><?= translate('Go to index', $translate) ?></a>
+                <input type="submit" class="button" value="<?= translate('Checkout', $translate) ?>">
+            </div>
+        </form>
     </div>
 </body>
 </html>

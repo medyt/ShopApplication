@@ -62,4 +62,19 @@
             return $str;
         }
     }
+    function checkout($name, $contact, $comments)
+    {
+        $msg = "Dear".$name.",\n\n\n";
+        $msg = "My contact details is ".$contact."\n".$comments ;
+        $msg = wordwrap($msg,70);
+        echo $msg;
+        /*ini_set('SMTP','smtp.gmail.com');
+        int_set('SMTPusername','madalin.andone@gmail.com');
+        int_set('SMTPpassword','');
+        ini_set('smtp_port',25);
+        $headers =  'MIME-Version: 1.0' . "\r\n"; 
+        $headers .= 'From: Your name <info@address.com>' . "\r\n";
+        $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n"; 
+        mail("madalin.andone@gmail.com","My order",$msg,$headers);*/
+    }
 ?>

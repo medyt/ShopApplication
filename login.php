@@ -96,7 +96,7 @@
                   $_SESSION['timeout'] = time();
                   $_SESSION['username'] = $loginusername;                  
                   echo 'You have entered valid use name and password';
-                  header("Location: http://localhost/appMag/products.php");
+                  header("Location: products.php");
                   die();
                }
                else {
