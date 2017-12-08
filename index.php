@@ -18,35 +18,33 @@
 h1{
     style="color: #7a7a7a;text-transform: uppercase;"
 }
+p {
+    display: inline;
+}
 </style>
 </head>
 <body>
-    <h1>Online Store</h1>
-    
+    <h1>Online Store</h1>    
     <?php
         include ("common.php");
         session_start();
+        if (!isset($_SESSION["incart"])) {
+            $_SESSION["incart"]=array();
+        }
         $valuesArray = $_SESSION["incart"]; 
         if (isset($_POST["id"])) {            
             $valuesArray[] = $_POST['id'];
             $_SESSION["incart"] = $valuesArray;
             header("Location: http://localhost/appMag/cart.php");           
         }
-        //$_SESSION["incart"]=array();
-        $conn = connectDB($servername, $username, $password, $name); 
-        $inCartIndex = $_SESSION["incart"];   
-        $length = count($inCartIndex);        
+        $conn = connectDB($servername, $username, $password, $name);    
+        $length = count($_SESSION["incart"]);        
         $params = array_fill(0, $length, '?');
         $typeOfData = str_repeat("i", $length); 
         $values[] = $typeOfData;
         for ($i=0; $i<$length; $i++) {
-            $values[] = &$inCartIndex[$i];
+            $values[] = &$_SESSION["incart"][$i];
         }
-        /*foreach ($inCartIndex as $id) {
-            echo $id;
-            $values[] = &$id;
-        }*/
-        //var_dump($values);
         if ($length>0) {
             $query = 'SELECT id, title, description, price FROM products WHERE id not in ('.implode(',',$params).')';
             $stmt = mysqli_prepare($conn, $query);
@@ -60,29 +58,31 @@ h1{
             mysqli_stmt_execute($stmt);
             $result = mysqli_stmt_get_result($stmt);
             $row_cnt = mysqli_num_rows($result);
-        }       
+        }
+        $conn->close();       
     ?>
     <?php if($row_cnt > 0):?>
         <table>
             <tr>
-                <th>Photo</th>
-                <th>Specification</th> 
-                <th>Add</th>
+                <th><?= translate('Photo', $translate) ?></th>
+                <th><?= translate('Specification', $translate) ?></th>
+                <th><?= translate('Add', $translate) ?></th>
             </tr>
-            <?php while($row = mysqli_fetch_array($result, MYSQLI_NUM)):?>
-                <?php $photoName="photo/photo-".$row[0].".jpg"?>
+            <?php while($row = mysqli_fetch_assoc($result)): ?>
+                <?php $photoName="photo/photo-".$row["id"].".jpg" ?>
                 <tr>
                     <td>
                         <img src="<?=$photoName?>" height="100" width="100">
                     </td>
                     <td>
-                        <?= "title: ".$row[1]."<br/>"?>
-                        <?= "description: ".$row[2]."<br/>"?>
-                        <?= "price: ".$row[3]?>
+                        
+                        <p><?= translate('title', $translate) ?> : <?= $row["title"] ?> <br/> </p>
+                        <p><?= translate('description', $translate) ?> : <?= $row["description"] ?> <br/> </p>
+                        <p><?= translate('price', $translate) ?> : <?= $row["price"] ?> </p>
                     </td>
                     <td>
                         <form action="/appMag/index.php" method="post">
-                            <input type="hidden" name="id" value="<?=$row[0]?>">
+                            <input type="hidden" name="id" value="<?=$row["id"] ?>">
                             <input type="submit" name="add" value="Add">
                         </form>
                     </td>
@@ -91,9 +91,8 @@ h1{
         </table>
     <?php endif;?>
     
-    <?php $conn->close();?>
-    <a href="/appMag/login.php" class="button">Login</a>
-    <a href="/appMag/cart.php" class="button">Go to cart</a>
+    <a href="/appMag/login.php" class="button"><?= translate('Login', $translate) ?></a>
+    <a href="/appMag/cart.php" class="button"><?= translate('Go to cart', $translate) ?></a>
 </body>
 </html>
 

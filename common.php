@@ -20,12 +20,10 @@
         mysqli_stmt_execute($state);
     }
     function remove($id)
-    {        
-        $lengthRemove= count($_SESSION["incart"]);        
-        for ($i = 0; $i < $lengthRemove; $i++) {
-            if ($_SESSION["incart"][$i] == $id) {
-                unset($_SESSION["incart"][$i]);
-            }
+    {
+        if (in_array($id, $_SESSION["incart"], true)) {
+            $key = array_search($id, $_SESSION["incart"]); 
+            unset($_SESSION["incart"][$key]);
         }
     }
     function add($title, $description, $price,$file,$conn)
@@ -38,5 +36,23 @@
         $input = $file["tmp_name"];
         $output = "./photo/photo-". $id .'.jpg';
         file_put_contents($output, file_get_contents($input));
+    }
+    $translate = array(
+        'Photo' => 'PtotoT',
+        'Specification' => 'SpecificationT',
+        'Add' => 'AddT',
+        'title' => 'Title',
+        'description' => 'Description',
+        'price' => 'Price',
+        'Login' => 'LOGIN',
+        'Go to cart' => 'GO TO CART'
+    );    
+    function translate($str, $translate) 
+    {
+        if (array_key_exists($str, $translate)) {
+            return $translate[$str];
+        } else {
+            return $str;
+        }
     }
 ?>
