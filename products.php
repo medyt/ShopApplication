@@ -20,7 +20,6 @@
     <h1>Products Management</h1>
     <?php
         include ("common.php");
-        session_start();
         $conn = connectDB($servername, $username, $password, $name); 
         $sql = "SELECT * FROM products";
         $result = $conn->query($sql);

@@ -52,7 +52,8 @@
         'Checkout' => 'CHECKOUT',
         'Name' => 'NAME',
         'Contact details' => 'CONTACT DETAILS',
-        'Comments' => 'COMMENTS'
+        'Comments' => 'COMMENTS',
+        'Login' => 'LOGIN'
     );    
     function translate($str, $translate) 
     {
