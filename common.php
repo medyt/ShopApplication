@@ -22,8 +22,8 @@
     function remove($id)
     {
         if (in_array($id, $_SESSION["incart"], true)) {
-            $key = array_search($id, $_SESSION["incart"]); 
-            unset($_SESSION["incart"][$key]);
+            $key = array_search($id, $_SESSION["incart"]);
+            array_splice($_SESSION["incart"], $key, 1);
         }
     }
     function add($title, $description, $price,$file,$conn)
@@ -38,14 +38,20 @@
         file_put_contents($output, file_get_contents($input));
     }
     $translate = array(
-        'Photo' => 'PtotoT',
-        'Specification' => 'SpecificationT',
-        'Add' => 'AddT',
+        'Photo' => 'PHOTO',
+        'Specification' => 'SPECIFICATION',
+        'Add' => 'ADD',
         'title' => 'Title',
         'description' => 'Description',
         'price' => 'Price',
         'Login' => 'LOGIN',
-        'Go to cart' => 'GO TO CART'
+        'Go to cart' => 'GO TO CART',
+        'Remove' => 'REMOVE',
+        'Go to index' => 'GO TO INDEX',
+        'Checkout' => 'CHECKOUT',
+        'Name' => 'NAME',
+        'Contact details' => 'CONTACT DETAILS',
+        'Comments' => 'COMMENTS'
     );    
     function translate($str, $translate) 
     {

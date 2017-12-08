@@ -21,6 +21,9 @@
         margin: 4px 2px;
         cursor: pointer;
     }
+    p {
+        display: inline;
+    }
 </style>
 </head>
 <body>
@@ -28,20 +31,17 @@
     <?php 
         include ("common.php");
         session_start();
-        $conn = connectDB($servername, $username, $password, $name); 
-        $valuesArray = $_SESSION["incart"];        
+        $conn = connectDB($servername, $username, $password, $name);        
         if (isset($_POST["function"])){
             if(strcmp($_POST["function"], "Remove") == 0) {     
                 remove($_POST["id"]);
-            }   
-            header("Location: http://localhost/appMag/cart.php");
+            }
         }
-        $length = count($valuesArray);               
+        $length = count($_SESSION["incart"]);               
         $params = array_fill(0, $length, '?');         
-        $typeOfData = str_repeat("i", $length);         
-        $values[] = $typeOfData;
+        $values[] = str_repeat("i", $length);
         for ($i=0; $i<$length; $i++) {
-            $values[] = &$valuesArray[$i];
+            $values[] = &$_SESSION["incart"][$i];
         }
         $row_cnt= 0;
         if ($length>0) {
@@ -51,31 +51,32 @@
             mysqli_stmt_execute($stmt);
             $result = mysqli_stmt_get_result($stmt);
             $row_cnt = mysqli_num_rows($result);   
-        }                    
+        }  
+        $conn->close();                  
     ?>
     <?php if($row_cnt > 0):?>
         <table>
             <tr>
-                <th>Photo</th>
-                <th>Specification</th> 
-                <th>Add</th>
+                <th><?= translate('Photo', $translate) ?></th>
+                <th><?= translate('Specification', $translate) ?></th>
+                <th><?= translate('Add', $translate) ?></th>
             </tr>
-            <?php while($row = mysqli_fetch_array($result, MYSQLI_NUM)):?>
-                <?php $photoName="photo/photo-".$row[0].".jpg"?>
+            <?php while($row = mysqli_fetch_assoc($result)): ?>
+                <?php $photoName="photo/photo-".$row["id"].".jpg"?>
                 <tr>
                     <td>
                         <img src="<?=$photoName?>" height="100" width="100">
                     </td>
                     <td>
-                        <?= "title: ".$row[1]."<br/>"?>
-                        <?= "description: ".$row[2]."<br/>"?>
-                        <?= "price: ".$row[3]?>
+                        <p><?= translate('title', $translate) ?> : <?= $row["title"] ?> <br/> </p>
+                        <p><?= translate('description', $translate) ?> : <?= $row["description"] ?> <br/> </p>
+                        <p><?= translate('price', $translate) ?> : <?= $row["price"] ?> </p>
                     </td>
                     <td>
                         <form action="/appMag/cart.php" method="post">
                             <input type="hidden" name="function" value="Remove">
-                            <input type="hidden" name="id" value="<?=$row[0]?>">
-                            <input type="submit" name="add" value="Remove">
+                            <input type="hidden" name="id" value="<?=$row["id"]?>">
+                            <input type="submit" name="add" value="<?= translate('Remove', $translate) ?>">
                         </form>
                     </td>
                 </tr>
@@ -83,14 +84,13 @@
         </table>
     <?php endif;?>
     <div>
-        <input class="solid" id="row" type="text" name="fname" value="Name"><br>
-        <input class="solid" id="row" type="text" name="lname" value="Contact Details"><br>    
-        <input class="solid" id="row" type="text" name="lname" value="Comments"><br>
+        <input class="solid" id="row" type="text" name="fname" value="<?= translate('Name', $translate) ?>"><br>
+        <input class="solid" id="row" type="text" name="lname" value="<?= translate('Contact details', $translate) ?>"><br>    
+        <input class="solid" id="row" type="text" name="lname" value="<?= translate('Comments', $translate) ?>"><br>
         <div>
-            <a href="/appMag/index.php" class="button">Go to index</a>
-            <input type="submit" class="button" value="Checkout">
+            <a href="/appMag/index.php" class="button"><?= translate('Go to index', $translate) ?></a>
+            <input type="submit" class="button" value="<?= translate('Checkout', $translate) ?>">
         </div>
     </div>
-    <?php $conn->close();?>
 </body>
 </html>

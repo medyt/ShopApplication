@@ -35,7 +35,8 @@ p {
         if (isset($_POST["id"])) {            
             $valuesArray[] = $_POST['id'];
             $_SESSION["incart"] = $valuesArray;
-            header("Location: http://localhost/appMag/cart.php");           
+            header("Location: http://localhost/appMag/cart.php"); 
+            die();          
         }
         $conn = connectDB($servername, $username, $password, $name);    
         $length = count($_SESSION["incart"]);        
@@ -74,8 +75,7 @@ p {
                     <td>
                         <img src="<?=$photoName?>" height="100" width="100">
                     </td>
-                    <td>
-                        
+                    <td>                        
                         <p><?= translate('title', $translate) ?> : <?= $row["title"] ?> <br/> </p>
                         <p><?= translate('description', $translate) ?> : <?= $row["description"] ?> <br/> </p>
                         <p><?= translate('price', $translate) ?> : <?= $row["price"] ?> </p>
@@ -83,7 +83,7 @@ p {
                     <td>
                         <form action="/appMag/index.php" method="post">
                             <input type="hidden" name="id" value="<?= $row["id"] ?>">
-                            <input type="submit" name="add" value="Add">
+                            <input type="submit" name="add" value="<?= translate('Add', $translate) ?>">
                         </form>
                     </td>
                 </tr>
