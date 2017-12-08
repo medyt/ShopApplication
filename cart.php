@@ -1,26 +1,6 @@
 <?php 
     include ("common.php");
-    $conn = connectDB($servername, $username, $password, $name);        
-    if (isset($_POST["function"])) {
-        if($_POST["function"] == "Remove") {     
-            if (in_array($_POST["id"], $_SESSION["incart"], true)) {
-                array_splice($_SESSION["incart"], array_search($_POST["id"], $_SESSION["incart"]), 1);
-            }
-        } else {
-            if($_POST["function"] == "Checkout") {
-                $msg = "Dear".$_POST["Name"].",\n\n\n"."My contact details is ".$_POST["Contact"]."\n".$_POST["Comments"];
-                $msg = wordwrap($msg, 70);
-                ini_set('smtp_port', 26);
-                $headers =  'MIME-Version: 1.0' . "\r\n"; 
-                $headers .= 'From: Your name <info@address.com>' . "\r\n";
-                $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n"; 
-                mail($checkoutemail, "My order", $msg, $headers);
-                $_SESSION["incart"] = array();
-                header("Location: index.php"); 
-                die();
-            }
-        }
-    }
+    $conn = connectDB($servername, $username, $password, $name);    
     $length = count($_SESSION["incart"]);               
     $params = array_fill(0, $length, '?');         
     $values[] = str_repeat("i", $length);
@@ -35,7 +15,47 @@
         mysqli_stmt_execute($stmt);
         $result = mysqli_stmt_get_result($stmt);
         $row_cnt = mysqli_num_rows($result);   
-    }  
+    }
+    $products = array();
+    if ($row_cnt > 0) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            $products[] = $row;
+        }
+    } 
+    var_dump($products);     
+    if (isset($_POST["function"])) {
+        if ($_POST["function"] == "Remove") {     
+            if (in_array($_POST["id"], $_SESSION["incart"], true)) {
+                array_splice($_SESSION["incart"], array_search($_POST["id"], $_SESSION["incart"]), 1);
+            }
+        } else {
+            if($_POST["function"] == "Checkout") {
+                $msg = "Dear".$_POST["Name"].",\n\n\n"."My contact details is ".$_POST["Contact"]."\n".$_POST["Comments"];
+                if ($row_cnt > 0) {
+                    $msg .= "Your products is : \n";
+                    foreach ($products as $row) {
+                        $msg .= '<html>
+                        <body>
+                            <img src="'."photo/photo-".$row["id"].".jpg".'">
+                        </body>
+                        </html>'."\n";
+                        $msg .= translate('title', $translate)." : ". $row["title"]."\n";
+                        $msg .= translate('description', $translate)." : ".$row["description"]."\n";
+                        $msg .= translate('price', $translate)." : ".$row["price"]."\n";
+                    }
+                }
+                $msg = wordwrap($msg, 70);
+                ini_set('smtp_port', 26);
+                $headers =  'MIME-Version: 1.0' . "\r\n"; 
+                $headers .= 'From: Your name <info@address.com>' . "\r\n";
+                $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n"; 
+                mail($checkoutemail, "My order", $msg, $headers);
+                $_SESSION["incart"] = array();
+                header("Location: index.php"); 
+                die();
+            }
+        }
+    }
     $conn->close();                  
 ?>
 <!DOCTYPE html>
@@ -76,7 +96,8 @@
                 <th><?= translate('Specification', $translate) ?></th>
                 <th><?= translate('Add', $translate) ?></th>
             </tr>
-            <?php while($row = mysqli_fetch_assoc($result)): ?>
+            <?php foreach ($products as $row): ?>
+                <?php $products[] = $row ?>
                 <tr>
                     <td>
                         <img src="<?= "photo/photo-".$row["id"].".jpg" ?>" height="100" width="100">
@@ -94,7 +115,7 @@
                         </form>
                     </td>
                 </tr>
-            <?php endwhile;?>
+            <?php endforeach;?>
         </table>
     <?php endif;?>
     <div>
