@@ -14,7 +14,6 @@
       }
    }
 ?>
-
 <html>   
    <head>      
       <style>
@@ -31,8 +30,7 @@
             cursor: pointer;
             }
       </style>      
-   </head>
-	
+   </head>	
    <body>      
       <h2>Enter Username and Password</h2>       
       <div class = "container">      

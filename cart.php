@@ -36,7 +36,7 @@
                 if ($row_cnt > 0) {
                     $msg .= "Your products is : \n";
                     foreach ($products as $row) {
-                        $msg .= '<img src="'."photo/photo-".$row["id"].".jpg".'">'."\n";                        
+                        $msg .= '<img src="<?='.'photo/photo-'.$row["id"].".jpg".'?>">'."\n";                        
                         $msg .= '<?='.translate('title', $translate)." : ". $row["title"].'?>'."\n";
                         $msg .= '<?='.translate('description', $translate)." : ".$row["description"].'?>'."\n";
                         $msg .= '<?='.translate('price', $translate)." : ".$row["price"].'?>'."\n";

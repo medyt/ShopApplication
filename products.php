@@ -12,11 +12,7 @@
                 mysqli_stmt_execute($state);
                 header("Location: products.php");
                 die();
-            } else {
-                if ($_POST["function"] == "Update") {
-                    echo "am ajuns aici";
-                }
-            }                
+            }            
         }
         $conn->close();
     } else {
@@ -48,9 +44,9 @@
     <?php if ($result->num_rows > 0): ?>
         <table>
             <tr>
-                <th>Photo</th>
-                <th>Specification</th> 
-                <th>Posibilities</th>
+                <th><?= translate('Photo', $translate) ?></th>
+                <th><?= translate('Specification', $translate) ?></th> 
+                <th><?= translate('Posibilities', $translate) ?></th>
             </tr>
             <?php while ($row = $result->fetch_assoc()): ?>
                 <tr>
@@ -65,11 +61,15 @@
                     <td>
                         <form action="products.php" method="post">
                             <input type="hidden" name="function" value="Delete">
-                            <input type="hidden" name="id" value="<?=$row["id"]?>">
+                            <input type="hidden" name="id" value="<?= $row["id"] ?>">
                             <input type="submit" value="<?= translate('Delete', $translate) ?>">
                         </form>
-                        <form action="products.php" method="post">
-                            <input type="hidden" name="function" value="Update">                            
+                        <form action="product.php" method="get">
+                            <input type="hidden" name="function" value="Update"> 
+                            <input type="hidden" name="id" value="<?= $row["id"] ?>">
+                            <input type="hidden" name="title" value="<?= $row["title"] ?>">
+                            <input type="hidden" name="description" value="<?= $row["description"] ?>">  
+                            <input type="hidden" name="price" value="<?= $row["price"] ?>">                          
                             <input type="submit" value="Update">
                         </form>
                     </td>

@@ -33,7 +33,9 @@
         'Delete' => 'Delete',
         'Logout' => 'LOGOUT',
         'Products' => 'PRODUCTS',
-        'Save' => 'SAVE'
+        'Save' => 'SAVE',
+        'Posibilities' => 'POSIBILITIES',
+        'Image' => 'IMAGE'
     );    
     function translate($str, $translate) 
     {
