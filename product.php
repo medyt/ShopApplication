@@ -1,18 +1,22 @@
 <?php
     include ("common.php");
-    $conn = connectDB(constant("servername"), constant("username"), constant("password"), constant("name"));         
-    if (isset($_POST["function"])) {
-        if($_POST["function"] == "Add") {  
-            $id=5;
-            $query = "INSERT INTO products (id,title,description,price) VALUES (?,?,?,?)";
-            $state = mysqli_prepare($conn, $query);
-            mysqli_stmt_bind_param($state, 'isss', $id,$_POST["Title"], $_POST["Description"], $_POST["Price"]);
-            mysqli_stmt_execute($state);
-            $input = $_FILES["fileToUpload"]["tmp_name"];
-            $output = "./photo/photo-". $id .'.jpg';
-            file_put_contents($output, file_get_contents($input));          
-        }
-    }    
+    if ($_SESSION['valid']) {
+        $conn = connectDB(constant("servername"), constant("username"), constant("password"), constant("name"));         
+        if (isset($_POST["function"])) {
+            if($_POST["function"] == "Add") {  
+                $id=5;
+                $query = "INSERT INTO products (id,title,description,price) VALUES (?,?,?,?)";
+                $state = mysqli_prepare($conn, $query);
+                mysqli_stmt_bind_param($state, 'isss', $id,$_POST["Title"], $_POST["Description"], $_POST["Price"]);
+                mysqli_stmt_execute($state);
+                $input = $_FILES["fileToUpload"]["tmp_name"];
+                $output = "./photo/photo-". $id .'.jpg';
+                file_put_contents($output, file_get_contents($input));          
+            }
+        } 
+    } else {
+        die();
+    }  
 ?>
 <!DOCTYPE html>
 <html>

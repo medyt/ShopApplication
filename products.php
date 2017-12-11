@@ -1,23 +1,27 @@
 <?php
     include ("common.php");
-    $conn = connectDB(constant("servername"), constant("username"), constant("password"), constant("name")); 
-    $sql = "SELECT * FROM products";
-    $result = $conn->query($sql);
-    if (isset($_POST["function"])) {
-        if ($_POST["function"] == "Delete") {
-            $query = "DELETE FROM products WHERE id=?";
-            $state = mysqli_prepare($conn, $query);
-            mysqli_stmt_bind_param($state, 'i', $_POST["id"]);
-            mysqli_stmt_execute($state);
-            header("Location: products.php");
-            die();
-        } else {
-            if ($_POST["function"] == "Update") {
-                echo "am ajuns aici";
-            }
-        }                
+    if ($_SESSION['valid']) { 
+        $conn = connectDB(constant("servername"), constant("username"), constant("password"), constant("name")); 
+        $sql = "SELECT * FROM products";
+        $result = $conn->query($sql);
+        if (isset($_POST["function"])) {
+            if ($_POST["function"] == "Delete") {
+                $query = "DELETE FROM products WHERE id=?";
+                $state = mysqli_prepare($conn, $query);
+                mysqli_stmt_bind_param($state, 'i', $_POST["id"]);
+                mysqli_stmt_execute($state);
+                header("Location: products.php");
+                die();
+            } else {
+                if ($_POST["function"] == "Update") {
+                    echo "am ajuns aici";
+                }
+            }                
+        }
+        $conn->close();
+    } else {
+        die();
     }
-    $conn->close();
 ?>
 <!DOCTYPE html>
 <html>

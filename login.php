@@ -36,8 +36,8 @@
    <body>      
       <h2>Enter Username and Password</h2>       
       <div class = "container">      
-         <form class = "form-signin" role = "form" action = "<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method = "post">
-            <h4 class = "form-signin-heading"><?php echo $msg; ?></h4>
+         <form class = "form-signin" role = "form"  method = "post">
+            <h4 class = "form-signin-heading"><?= $msg ?></h4>
             <input type = "text" class = "form-control" name = "username" placeholder = "username =<?= constant("loginusername") ?>" required autofocus></br>
             <input type = "password" class = "form-control" name = "password" placeholder = "password = <?= constant("loginpassword") ?>" required></br>
             <button class = "button" type = "submit"name = "login"><?= translate('Login', $translate) ?></button>

@@ -1,6 +1,7 @@
 <?php
     include ("config.php");
     session_start();
+    
     function connectDB($servername, $username, $password, $name)
     {
         // Create connection

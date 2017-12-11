@@ -1,5 +1,6 @@
 <?php
    session_start();
+   $_SESSION['valid']=false;
    unset($_SESSION["username"]);
    unset($_SESSION["password"]);
    $msg = 'You have cleaned session';
