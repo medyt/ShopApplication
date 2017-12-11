@@ -4,7 +4,7 @@
     function connectDB($servername, $username, $password, $name)
     {
         // Create connection
-        $conn = mysqli_connect($servername, $username, $password,$name);
+        $conn = mysqli_connect($servername, $username, $password, $name);
         // Check connection
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);

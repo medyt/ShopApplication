@@ -1,6 +1,6 @@
 <?php
     include ("common.php");
-    $conn = connectDB($servername, $username, $password, $name); 
+    $conn = connectDB(constant("servername"), constant("username"), constant("password"), constant("name")); 
     $sql = "SELECT * FROM products";
     $result = $conn->query($sql);
     if (isset($_POST["function"])) {

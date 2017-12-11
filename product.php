@@ -1,6 +1,6 @@
 <?php
     include ("common.php");
-    $conn = connectDB($servername, $username, $password, $name);         
+    $conn = connectDB(constant("servername"), constant("username"), constant("password"), constant("name"));         
     if (isset($_POST["function"])) {
         if($_POST["function"] == "Add") {  
             $id=5;

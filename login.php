@@ -3,10 +3,10 @@
    $msg = '';
    $show_message = false;
    if (isset($_POST['login']) && !empty($_POST['username']) && !empty($_POST['password'])) {				
-      if ($_POST['username'] == $loginusername && $_POST['password'] == $loginpassword) {
+      if ($_POST['username'] == constant("loginusername") && $_POST['password'] == constant("loginpassword")) {
          $_SESSION['valid'] = true;
          $_SESSION['timeout'] = time();
-         $_SESSION['username'] = $loginusername;
+         $_SESSION['username'] = constant("loginusername");
          header("Location: products.php");
          die();
       } else {
@@ -38,8 +38,8 @@
       <div class = "container">      
          <form class = "form-signin" role = "form" action = "<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method = "post">
             <h4 class = "form-signin-heading"><?php echo $msg; ?></h4>
-            <input type = "text" class = "form-control" name = "username" placeholder = "username =<?= $loginusername ?>" required autofocus></br>
-            <input type = "password" class = "form-control" name = "password" placeholder = "password = <?=$loginpassword?>" required></br>
+            <input type = "text" class = "form-control" name = "username" placeholder = "username =<?= constant("loginusername") ?>" required autofocus></br>
+            <input type = "password" class = "form-control" name = "password" placeholder = "password = <?= constant("loginpassword") ?>" required></br>
             <button class = "button" type = "submit"name = "login"><?= translate('Login', $translate) ?></button>
          </form>       
       </div>       

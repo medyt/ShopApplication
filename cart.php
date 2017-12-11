@@ -1,6 +1,6 @@
 <?php 
     include ("common.php");
-    $conn = connectDB($servername, $username, $password, $name);    
+    $conn = connectDB(constant("servername"), constant("username"), constant("password"), constant("name"));    
     $length = count($_SESSION["incart"]);               
     $params = array_fill(0, $length, '?');         
     $values[] = str_repeat("i", $length);
@@ -21,35 +21,34 @@
         while ($row = mysqli_fetch_assoc($result)) {
             $products[] = $row;
         }
-    } 
-    var_dump($products);     
+    }    
     if (isset($_POST["function"])) {
         if ($_POST["function"] == "Remove") {     
             if (in_array($_POST["id"], $_SESSION["incart"], true)) {
                 array_splice($_SESSION["incart"], array_search($_POST["id"], $_SESSION["incart"]), 1);
+                header("Location: cart.php"); 
+                die();
             }
         } else {
             if($_POST["function"] == "Checkout") {
-                $msg = "Dear".$_POST["Name"].",\n\n\n"."My contact details is ".$_POST["Contact"]."\n".$_POST["Comments"];
+                $msg = '<html><body>';
+                $msg .= "Dear".$_POST["Name"].",\n\n\n"."My contact details is ".$_POST["Contact"]."\n".$_POST["Comments"];
                 if ($row_cnt > 0) {
                     $msg .= "Your products is : \n";
                     foreach ($products as $row) {
-                        $msg .= '<html>
-                        <body>
-                            <img src="'."photo/photo-".$row["id"].".jpg".'">
-                        </body>
-                        </html>'."\n";
-                        $msg .= translate('title', $translate)." : ". $row["title"]."\n";
-                        $msg .= translate('description', $translate)." : ".$row["description"]."\n";
-                        $msg .= translate('price', $translate)." : ".$row["price"]."\n";
+                        $msg .= '<img src="'."photo/photo-".$row["id"].".jpg".'">'."\n";                        
+                        $msg .= '<?='.translate('title', $translate)." : ". $row["title"].'?>'."\n";
+                        $msg .= '<?='.translate('description', $translate)." : ".$row["description"].'?>'."\n";
+                        $msg .= '<?='.translate('price', $translate)." : ".$row["price"].'?>'."\n";
                     }
                 }
+                $msg .= '</body></html>';
                 $msg = wordwrap($msg, 70);
-                ini_set('smtp_port', 26);
+                ini_set('smtp_port', constant("port"));
                 $headers =  'MIME-Version: 1.0' . "\r\n"; 
                 $headers .= 'From: Your name <info@address.com>' . "\r\n";
                 $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n"; 
-                mail($checkoutemail, "My order", $msg, $headers);
+                mail(constant("checkoutemail"), "My order", $msg, $headers);
                 $_SESSION["incart"] = array();
                 header("Location: index.php"); 
                 die();

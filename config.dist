@@ -1,9 +1,10 @@
 <?php
-    $servername = "servername";
-    $username = "unername for connect to database";
-    $password = "password for connection database";
-    $name = 'the name of database';
-    $loginusername = 'login username';
-    $loginpassword = 'login password';
-	$checkoutemail = "emailtocheckout";
+	define("servername", "servername");
+    define("username", "unername for connect to database");
+    define("password", "password for connection database");
+    define("name", "the name of database");
+    define("loginusername", "login username");
+    define("loginpassword", "login password");
+    define("checkoutemail", "emailtocheckout");
+    define("port", "port for send checkout email");
 ?>

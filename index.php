@@ -8,7 +8,7 @@
         header("Location: cart.php"); 
         die();          
     }
-    $conn = connectDB($servername, $username, $password, $name);    
+    $conn = connectDB(constant("servername"), constant("username"), constant("password"), constant("name"));    
     $length = count($_SESSION["incart"]);        
     $params = array_fill(0, $length, '?');
     $typeOfData = str_repeat("i", $length); 
