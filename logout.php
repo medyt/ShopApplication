@@ -1,8 +1,8 @@
 <?php
-   session_start();
+   include ("common.php");
    $_SESSION['valid']=false;
    unset($_SESSION["username"]);
-   $msg = 'You have cleaned session';
+   $msg = translate('You have cleaned session', $translate);
    header('Refresh: 2; URL = index.php');
 ?>
 <html>

@@ -9,7 +9,7 @@
          header("Location: products.php");
          die();
       } else {
-         $msg = 'Wrong username or password';
+         $msg = translate('Wrong username or password', $translate);;
       }
    }
 ?>
