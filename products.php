@@ -51,7 +51,7 @@
             <?php while ($row = $result->fetch_assoc()): ?>
                 <tr>
                     <td>
-                        <img src="<?= "photo/photo-".$row["id"].".jpg" ?>" height="100" width="100">
+                        <img src="photo/photo-<?= $row["id"] ?>.jpg" height="100" width="100">
                     </td>
                     <td>
                         <p><?= translate('title', $translate) ?> : <?= $row["title"] ?> <br/> </p>
