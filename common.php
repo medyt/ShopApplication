@@ -39,7 +39,8 @@
         'Online Store' => 'ONLINE STORE',
         'Dear' => 'Dear',
         'My contact details is' => 'My contact details is',
-        'Your products is' => 'Your products is'
+        'Your products is' => 'Your products is',
+        'Enter Username and Password' => 'Enter Username and Password'
 
     );    
     function translate($str, $translate) 

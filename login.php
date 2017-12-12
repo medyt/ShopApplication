@@ -1,7 +1,6 @@
 <?php
    include ("common.php");
    $msg = '';
-   $show_message = false;
    if (isset($_POST['login']) && !empty($_POST['username']) && !empty($_POST['password'])) {				
       if ($_POST['username'] == constant("loginusername") && $_POST['password'] == constant("loginpassword")) {
          $_SESSION['valid'] = true;
@@ -32,7 +31,7 @@
       </style>      
    </head>	
    <body>      
-      <h2>Enter Username and Password</h2>       
+      <h2><?= translate('Enter Username and Password', $translate) ?></h2>             
       <div class = "container">      
          <form class = "form-signin" role = "form"  method = "post">
             <h4 class = "form-signin-heading"><?= $msg ?></h4>

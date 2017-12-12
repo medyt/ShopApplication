@@ -81,8 +81,7 @@
                 </tr>
             <?php endwhile;?>
         </table>
-    <?php endif;?>
-    
+    <?php endif;?>    
     <a href="login.php" class="button"><?= translate('Login', $translate) ?></a>
     <a href="cart.php" class="button"><?= translate('Go to cart', $translate) ?></a>
 </body>
