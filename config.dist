@@ -1,5 +1,5 @@
 <?php
-	define("servername", "servername");
+    define("servername", "servername");
     define("username", "unername for connect to database");
     define("password", "password for connection database");
     define("name", "the name of database");
@@ -7,4 +7,3 @@
     define("loginpassword", "login password");
     define("checkoutemail", "emailtocheckout");
     define("port", "port for send checkout email");
-?>

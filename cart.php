@@ -26,27 +26,25 @@
         if ($_POST["function"] == "Remove") {     
             if (in_array($_POST["id"], $_SESSION["incart"], true)) {
                 array_splice($_SESSION["incart"], array_search($_POST["id"], $_SESSION["incart"]), 1);
-                header("Location: cart.php"); 
-                die();
+                header("Refresh:0");
             }
         } else {
             if($_POST["function"] == "Checkout") {
                 $msg = '<html><body>';
-                $msg .= "Dear".$_POST["Name"].",\n\n\n"."My contact details is ".$_POST["Contact"]."\n".$_POST["Comments"];
+                $msg .= translate('Dear', $translate).$_POST["Name"].",\n\n\n".translate('My contact details is', $translate).$_POST["Contact"]."\n".$_POST["Comments"];
                 if ($row_cnt > 0) {
-                    $msg .= "Your products is : \n";
+                    $msg .= translate('Your products is', $translate)." : \n";
                     foreach ($products as $row) {
-                        $msg .= '<img src="<?='.'photo/photo-'.$row["id"].".jpg".'?>">'."\n";                        
-                        $msg .= '<?='.translate('title', $translate)." : ". $row["title"].'?>'."\n";
-                        $msg .= '<?='.translate('description', $translate)." : ".$row["description"].'?>'."\n";
-                        $msg .= '<?='.translate('price', $translate)." : ".$row["price"].'?>'."\n";
+                        $msg .= '<img src="photo/photo-'.$row["id"].'.jpg">'."\n";                        
+                        $msg .= translate('title', $translate)." : ". $row["title"]."\n";
+                        $msg .= translate('description', $translate)." : ".$row["description"]."\n";
+                        $msg .= translate('price', $translate)." : ".$row["price"]."\n";
                     }
                 }
                 $msg .= '</body></html>';
                 $msg = wordwrap($msg, 70);
-                ini_set('smtp_port', constant("port"));
-                $headers =  'MIME-Version: 1.0' . "\r\n"; 
-                $headers .= 'From: Your name <info@address.com>' . "\r\n";
+                ini_set('smtp_port', constant("port")); 
+                $headers = 'From: Your name <info@address.com>' . "\r\n";
                 $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n"; 
                 mail(constant("checkoutemail"), "My order", $msg, $headers);
                 $_SESSION["incart"] = array();
@@ -114,9 +112,9 @@
                         </form>
                     </td>
                 </tr>
-            <?php endforeach;?>
+            <?php endforeach; ?>
         </table>
-    <?php endif;?>
+    <?php endif; ?>
     <div>
         <form action="cart.php" method="post">
             <input type="hidden" name="function" value="Checkout">

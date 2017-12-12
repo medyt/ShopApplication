@@ -10,7 +10,7 @@
                 mysqli_stmt_bind_param($state, 'isss', $id,$_POST["Title"], $_POST["Description"], $_POST["Price"]);
                 mysqli_stmt_execute($state);
                 $input = $_FILES["fileToUpload"]["tmp_name"];
-                $output = "./photo/photo-". $id .'.jpg';
+                $output = "photo/photo-". $id .'.jpg';
                 file_put_contents($output, file_get_contents($input));          
             } else {
                 if ($_POST["function"] == "Update") {

@@ -35,7 +35,12 @@
         'Products' => 'PRODUCTS',
         'Save' => 'SAVE',
         'Posibilities' => 'POSIBILITIES',
-        'Image' => 'IMAGE'
+        'Image' => 'IMAGE',
+        'Online Store' => 'ONLINE STORE',
+        'Dear' => 'Dear',
+        'My contact details is' => 'My contact details is',
+        'Your products is' => 'Your products is'
+
     );    
     function translate($str, $translate) 
     {

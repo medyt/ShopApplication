@@ -54,7 +54,7 @@
     </style>
 </head>
 <body>
-    <h1>Online Store</h1>   
+    <h1><?= translate('Online Store', $translate) ?></h1>   
     <?php if($row_cnt > 0): ?>
         <table>
             <tr>
