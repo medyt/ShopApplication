@@ -62,8 +62,6 @@
         input.solid {
             border-style: solid;
             border-color:#017572;
-        }
-        #row {
             margin-top: 1.3em;
             height:2em;
             width: 25.4em;
@@ -118,9 +116,9 @@
     <div>
         <form action="cart.php" method="post">
             <input type="hidden" name="function" value="Checkout">
-            <input class="solid" id="row" type="text" name="Name" value="<?= translate('Name', $translate) ?>"><br>
-            <input class="solid" id="row" type="text" name="Contact" value="<?= translate('Contact details', $translate) ?>"><br>    
-            <input class="solid" id="row" type="text" name="Comments" value="<?= translate('Comments', $translate) ?>"><br>
+            <input class="solid" type="text" name="Name" value="<?= translate('Name', $translate) ?>"><br>
+            <input class="solid" type="text" name="Contact" value="<?= translate('Contact details', $translate) ?>"><br>    
+            <input class="solid" type="text" name="Comments" value="<?= translate('Comments', $translate) ?>"><br>
             <div>
                 <a href="index.php" class="button"><?= translate('Go to index', $translate) ?></a>
                 <input type="submit" class="button" value="<?= translate('Checkout', $translate) ?>">
