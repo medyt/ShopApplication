@@ -26,7 +26,6 @@
         if ($_POST["function"] == "Remove") {     
             if (in_array($_POST["id"], $_SESSION["incart"], true)) {
                 array_splice($_SESSION["incart"], array_search($_POST["id"], $_SESSION["incart"]), 1);
-                header("Refresh:0");
             }
         } else {
             if($_POST["function"] == "Checkout") {
