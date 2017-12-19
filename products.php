@@ -65,11 +65,7 @@
                             <input type="submit" value="<?= translate('Delete', $translate) ?>">
                         </form>
                         <form action="product.php" method="get">
-                            <input type="hidden" name="function" value="Update"> 
-                            <input type="hidden" name="id" value="<?= $row["id"] ?>">
-                            <input type="hidden" name="title" value="<?= $row["title"] ?>">
-                            <input type="hidden" name="description" value="<?= $row["description"] ?>">  
-                            <input type="hidden" name="price" value="<?= $row["price"] ?>">                          
+                            <input type="hidden" name="id" value="<?= $row["id"] ?>">                          
                             <input type="submit" value="Update">
                         </form>
                     </td>

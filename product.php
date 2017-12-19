@@ -3,14 +3,20 @@
     if ($_SESSION['valid']) {
         $conn = connectDB(constant("servername"), constant("username"), constant("password"), constant("name"));
         $id = null;
-        $title="";
-        $description="";
-        $price="";
-        if (isset($_GET["function"])) {
+        $title = "";
+        $description = "";
+        $price = "";
+        if (isset($_GET["id"])) {
             $id = $_GET["id"];
-            $title = $_GET["title"];
-            $description = $_GET["description"];
-            $price = $_GET["price"];
+            $query = 'SELECT title, description, price FROM products WHERE id=?';
+            $state = mysqli_prepare($conn, $query);
+            mysqli_stmt_bind_param($state, 'i', $id);
+            mysqli_stmt_execute($state); 
+            $result = mysqli_stmt_get_result($state);
+            $row = mysqli_fetch_assoc($result);
+            $title = $row["title"];
+            $description = $row["description"];
+            $price = $row["price"];
         }
         if (isset($_POST["id"])) {
             if ($_FILES["fileToUpload"]["size"] != 0) {
