@@ -25,33 +25,33 @@
                     $input = $_FILES["fileToUpload"]["tmp_name"];
                     $addphoto = true;
                 } else {
-                    echo "The type of your file is not accepted. We accept .jpg file.";
+                    echo translate('The type of your file is not accepted. We accept image file.', $translate);
                 }
             } else {
-                echo "You did not insert the picture";
-            }
-            if ($_POST["id"] == null) { 
-                $query = "INSERT INTO products (title,description,price) VALUES (?,?,?)";
-                $state = mysqli_prepare($conn, $query);
-                mysqli_stmt_bind_param($state, 'sss', $_POST["Title"], $_POST["Description"], $_POST["Price"]);                
-            } else {    
-                $query = "UPDATE products SET title = ?, description= ?, price= ? WHERE id = ?";
-                $state = mysqli_prepare($conn, $query);
-                mysqli_stmt_bind_param($state, 'sssi', $_POST["Title"], $_POST["Description"], $_POST["Price"], $_POST["id"]); 
-                $output = "photo/photo-". $_POST["id"] .'.jpg';              
-            }
-            mysqli_stmt_execute($state); 
-            if ($_POST["id"] == null) { 
-                $query = 'SELECT id FROM products WHERE title=?';
-                $state = mysqli_prepare($conn, $query);
-                mysqli_stmt_bind_param($state, 's', $_POST["Title"]);
-                mysqli_stmt_execute($state);
-                $result = mysqli_stmt_get_result($state);
-                $row = mysqli_fetch_assoc($result);
-                $id = $row["id"];
-                $output = "photo/photo-". $id .'.jpg';
+                echo translate('You did not insert the picture', $translate);
             }
             if ($addphoto) {
+                if ($_POST["id"] == null) { 
+                    $query = "INSERT INTO products (title,description,price) VALUES (?,?,?)";
+                    $state = mysqli_prepare($conn, $query);
+                    mysqli_stmt_bind_param($state, 'sss', $_POST["Title"], $_POST["Description"], $_POST["Price"]);                
+                } else {    
+                    $query = "UPDATE products SET title = ?, description= ?, price= ? WHERE id = ?";
+                    $state = mysqli_prepare($conn, $query);
+                    mysqli_stmt_bind_param($state, 'sssi', $_POST["Title"], $_POST["Description"], $_POST["Price"], $_POST["id"]); 
+                    $output = "photo/photo-". $_POST["id"] .'.jpg';              
+                }
+                mysqli_stmt_execute($state); 
+                if ($_POST["id"] == null) { 
+                    $query = 'SELECT id FROM products WHERE title=?';
+                    $state = mysqli_prepare($conn, $query);
+                    mysqli_stmt_bind_param($state, 's', $_POST["Title"]);
+                    mysqli_stmt_execute($state);
+                    $result = mysqli_stmt_get_result($state);
+                    $row = mysqli_fetch_assoc($result);
+                    $id = $row["id"];
+                    $output = "photo/photo-". $id .'.jpg';
+                }            
                 move_uploaded_file(file_get_contents($input),$output);
             }
             header("Location: products.php"); 

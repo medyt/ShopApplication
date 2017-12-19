@@ -42,8 +42,9 @@
         'Your products is' => 'Your products is',
         'Enter Username and Password' => 'Enter Username and Password',
         'You have cleaned session' => 'You have cleaned session',
-        'Wrong username or password' => 'Wrong username or password'
-
+        'Wrong username or password' => 'Wrong username or password',
+        'The type of your file is not accepted. We accept image file.' => 'The type of your file is not accepted. We accept .jpg file.',
+        'You did not insert the picture' => 'You did not insert the picture'
     );    
     function translate($str, $translate) 
     {
